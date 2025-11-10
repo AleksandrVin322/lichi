@@ -1,16 +1,71 @@
-# lichi
+# LICHI test
 
-A new Flutter project.
+Мобильное приложение для покупок товаров магазина Lichi, разработанное как тестовое задание.
 
-## Getting Started
+## Скриншоты
+<img width="386" height="847" alt="image" src="https://github.com/user-attachments/assets/3d83f8cf-d7c2-4ee4-aa0b-9314763d27df" />
+<img width="389" height="844" alt="image" src="https://github.com/user-attachments/assets/665c6354-2cb4-42b4-a7a9-a30a0508b154" />
+<img width="403" height="856" alt="image" src="https://github.com/user-attachments/assets/14617487-15df-4cc2-94d9-a44b03429e94" />
+<img width="403" height="849" alt="image" src="https://github.com/user-attachments/assets/425664bc-211e-4d83-80e4-eadd96dacf8c" />
 
-This project is a starting point for a Flutter application.
+## Особенности
 
-A few resources to get you started if this is your first Flutter project:
+- State Management - использование Bloc для управления состояниями.
+- Работа с API  - загрузка данных с пагинацией и выбором категорий.
+- Работа с локальной базой данных - корзина сохраняется на устройстве.
+- Адаптивный дизайн - поддержка различных устройств.
+- Темная тема - полная поддержка темной и светлой темы.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+ ## Технологии и библиотеки
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+ - Framework - Flutter, Dart.
+ - State Management - Bloc.
+ - База данных - Shared Preferences.
+ - HTTP Client - dart:io.
+ - Панель уведомления - another_flushbar.
+ - Шрифты - google_fonts.
+
+ ## Установка и запуск
+
+ ### Предварительные требования
+
+ - Минимальная версия Dart - 3.8.1.
+ - Минимальная версия Flutter - 3.32.6. 
+ - VS Code / Android Studio.
+
+ ### Шаги установки
+ 1. Клонировать репозиторий.
+ 2. Установить зависимости (-flutter pub get).
+ 3. flutter run.
+
+ ### Сборка релизной версии
+ Если необходимо собрать файл для установки на устройство:
+ - Android (-flutter build apk --release).
+ - IOS (-flutter build ios --release).
+
+## Реализованные функции
+### Для страницы каталога:
+- Загрузка и вывод товаров, полученных с API.
+- Отображение сверху счетчика товаров в корзине (по нажатию осуществить переход в корзину).
+- Виджет с выбором темы.
+- По нажатию на товар, нужно открывается модальное окно, с выбором размеров и кнопкой подтверждения, по нажатию которой, товар добавляется в корзину.
+- При добавление товара в корзину отображать уведомление об успешном добавлении в корзину.
+- Выбор категорий товаров.
+- Слайдер изображений в товаре (в каталоге и в карточке товара).
+- Пагинация товаров (реализована как две кнопки внизу экрана: "Предыдущая страница" и "Следующая страница"). 
+
+### Для страницы корзины:
+- Список товаров, добавленных в корзину.
+- Возможность изменения кол-ва товара и удаления товара.
+- Итоговая сумма корзины.
+- Хранить товары локально.
+- Реализовано сохранение товаров в локальную базу данных.
+
+## Контакты
+
+Винокуров Александр
+
+TG: @AlexandrVinocurov
+
+MAIL: Alexandr.Vinocurov@yandex.ru
+
