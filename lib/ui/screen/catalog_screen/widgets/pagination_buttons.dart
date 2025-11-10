@@ -5,8 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/bloc/catalog/catalog_bloc.dart';
 import '../../../../core/bloc/category/category_bloc.dart';
 
+/// Виджет хранящий две кнопки для пагинации на странице каталога.
 class PaginationButtons extends StatelessWidget {
-  /// Виджет хранящий две кнопки для пагинации на странице каталога.
+  /// Конструктор [PaginationButtons].
   const PaginationButtons({super.key});
 
   @override

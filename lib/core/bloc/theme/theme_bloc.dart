@@ -10,6 +10,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     on<ChangeThemeToLightEvent>(_changeThemeToLight);
   }
 
+  /// Сменить тему на темную.
   void _changeThemeToDark(
     ChangeThemeToDarkEvent event,
     Emitter<ThemeState> emit,
@@ -17,6 +18,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     emit(DarkThemeState());
   }
 
+  /// Сменить тему на светлую.
   void _changeThemeToLight(
     ChangeThemeToLightEvent event,
     Emitter<ThemeState> emit,

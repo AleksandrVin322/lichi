@@ -6,7 +6,9 @@ import '../widgets/fail_widget.dart';
 import 'widgets/app_bar_title.dart';
 import 'widgets/list_product_in_cart.dart';
 
+/// Экран корзины.
 class CartScreen extends StatelessWidget {
+  /// Конструктор [CartScreen].
   const CartScreen({super.key});
 
   @override

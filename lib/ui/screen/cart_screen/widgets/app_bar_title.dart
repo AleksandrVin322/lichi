@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+/// title [AppBar] для страницы корзины.
 class AppBarTitle extends StatelessWidget {
+  /// Конструктор [AppBarTitle].
   const AppBarTitle({super.key});
 
   @override

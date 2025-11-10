@@ -6,10 +6,11 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/bloc/cart/cart_bloc.dart';
 import '../../../../core/dto/product.dart';
 
+/// Нижняя вызывная панель для каталога. Применяется для выбора размера и добавления товара в корзину.
 class BottomModalBar extends StatefulWidget {
   final Product product;
 
-  /// Нижняя вызывная панель для каталога. Применяется для выбора размера и добавления товара в корзину.
+  /// Конструктор [BottomModalBar].
   const BottomModalBar({required this.product, super.key});
 
   @override

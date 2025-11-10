@@ -5,8 +5,9 @@ import '../../../../core/bloc/catalog/catalog_bloc.dart';
 import '../../../../core/bloc/category/category_bloc.dart';
 import '../../../../core/bloc/theme/theme_bloc.dart';
 
+/// [Row] с категориями товаров.
 class RowCategory extends StatelessWidget {
-  /// [Row] с категориями товаров.
+  /// Конструктор [RowCategory].
   const RowCategory({super.key});
 
   @override

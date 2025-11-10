@@ -15,6 +15,7 @@ class CatalogBloc extends Bloc<CatalogEvent, CatalogState> {
     add(CatalogLoadedEvent());
   }
 
+  /// Получить список продуктов по категории и по странице.
   Future<void> _getCategoryProductList(
     CatalogLoadedEvent event,
     Emitter<CatalogState> emit,

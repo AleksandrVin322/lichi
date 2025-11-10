@@ -4,8 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/bloc/theme/theme_bloc.dart';
 
+/// Виджет содержащий две кнопки для смены светлой и темной темы.
 class ThemeButtons extends StatelessWidget {
-  /// Виджет содержащий две кнопки для смены светлой и темной темы.
+  /// Конструктор [ThemeButtons].
   const ThemeButtons({super.key});
 
   @override

@@ -5,8 +5,11 @@ import 'package:intl/intl.dart';
 import '../../../../core/bloc/cart/cart_bloc.dart';
 import 'card_in_cart.dart';
 
+/// [ListView] с продуктами из корзины.
 class ListProductInCart extends StatelessWidget {
   final CartInitialState state;
+
+  /// Конструктор [ListProductInCart].
   const ListProductInCart({required this.state, super.key});
 
   @override

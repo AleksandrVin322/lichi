@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/bloc/catalog/catalog_bloc.dart';
 import 'card_product.dart';
 
+/// [GridView] для списка продуктов по категориям.
 class BodyGridProduct extends StatelessWidget {
   final CatalogLoadedState state;
 

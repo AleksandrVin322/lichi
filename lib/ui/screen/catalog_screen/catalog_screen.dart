@@ -7,8 +7,9 @@ import 'widgets/pagination_buttons.dart';
 import 'widgets/row_category.dart';
 import 'widgets/theme_buttons.dart';
 
+/// Главная страница с каталогом.
 class CatalogScreen extends StatelessWidget {
-  /// Главная страница с каталогом.
+  /// Конструктор [CatalogScreen].
   const CatalogScreen({super.key});
 
   @override

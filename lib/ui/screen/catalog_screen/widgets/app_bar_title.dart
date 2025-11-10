@@ -4,8 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/bloc/cart/cart_bloc.dart';
 
+/// title [AppBar] для страницы каталога.
 class AppBarTitle extends StatelessWidget {
-  /// [AppBar] для страницы каталога.
+  /// Конструктор [AppBarTitle].
   const AppBarTitle({super.key});
 
   @override

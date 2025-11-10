@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/dto/product.dart';
 
+/// Фото в карточке на странице с каталогом.
 class PhotoInCard extends StatefulWidget {
   final Product product;
 
-  /// Фото в карточке на странице с каталогом.
+  /// Конструктор [PhotoInCard].
   const PhotoInCard({required this.product, super.key});
 
   @override

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+/// Виджет при ошибках запросов.
 class FailWidget extends StatelessWidget {
   final void Function()? func;
 
-  /// Виджет при ошибках запросов на сервер.
+  /// Конструктор [FailWidget].
   const FailWidget({required this.func, super.key});
 
   @override

@@ -5,10 +5,11 @@ import '../../../../core/dto/product.dart';
 import 'bottom_modal_bar.dart';
 import 'photo_in_card.dart';
 
+/// Карточка продуктов для страницы каталога.
 class CardProduct extends StatelessWidget {
   final Product product;
 
-  /// Карточка для продукта.
+  /// Конструктор [CardProduct].
   const CardProduct({required this.product, super.key});
 
   @override

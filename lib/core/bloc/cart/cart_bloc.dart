@@ -19,6 +19,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     add(InitialEvent());
   }
 
+  /// Загрузка списка товаров для корзины из базы данных.
   void _initCart(InitialEvent event, Emitter<CartState> emit) async {
     try {
       final Cart cart = await sharedPreferencesApi.loadCart();
@@ -28,6 +29,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }
   }
 
+  /// Добавить продукт в корзину.
   void _addProduct(AddProductEvent event, Emitter<CartState> emit) async {
     try {
       final currentState = state as CartInitialState;
@@ -58,6 +60,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }
   }
 
+  /// Удалить продукт из корзины.
   void _deleteProduct(DeleteProductEvent event, Emitter<CartState> emit) {
     try {
       final currentState = state as CartInitialState;
@@ -81,6 +84,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }
   }
 
+  /// Увеличить количество продукта на 1 в корзине.
   void _incrementCountProduct(
     IncrementCountProductEvent event,
     Emitter<CartState> emit,
@@ -107,6 +111,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     }
   }
 
+  /// Уменьшить количество продукта на 1 в корзине.
   void _decrementCountProduct(
     DecrementCountProductEvent event,
     Emitter<CartState> emit,
@@ -136,6 +141,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 }
 
+/// Функция для расчета суммы корзины и количества продуктов в корзине.
 (int, int) _totalSumAndItemCount(Map<Product, int> products) {
   final itemCount = products.values.fold(
     0,

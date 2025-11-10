@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/bloc/cart/cart_bloc.dart';
 import '../../../../core/dto/product.dart';
 
+/// Карточки товаров в корзине.
 class CardInCart extends StatelessWidget {
+  /// Список продуктов и из количество.
   final Map<Product, int> products;
+
+  /// Индекс продукта.
   final int index;
 
+  /// Конструктор [CardInCart].
   const CardInCart({required this.products, required this.index, super.key});
 
   @override
@@ -45,14 +51,28 @@ class CardInCart extends StatelessWidget {
                       children: [
                         Text(
                           products.keys.toList()[index].name,
+                          style: GoogleFonts.openSans(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        Text(products.keys.toList()[index].size ?? ''),
-                        const SizedBox(height: 10),
+                        Text(
+                          products.keys.toList()[index].size ?? '',
+                          style: GoogleFonts.openSans(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        const SizedBox(height: 40),
                         Expanded(
                           child: Text(
                             products.keys.toList()[index].formatPrice[2],
+                            style: GoogleFonts.openSans(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ],
@@ -72,7 +92,13 @@ class CardInCart extends StatelessWidget {
                             icon: Icons.remove,
                           ),
                           const SizedBox(width: 5),
-                          Text('${products.values.toList()[index]} ед.'),
+                          Text(
+                            '${products.values.toList()[index]} ед.',
+                            style: GoogleFonts.openSans(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                           const SizedBox(width: 5),
                           _ButtonsCrement(
                             func: () => context.read<CartBloc>().add(

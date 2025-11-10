@@ -17,6 +17,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     add(CategoryLoadedEvent());
   }
 
+  /// Получить список категорий.
   Future<void> _getCategoryDetailList(
     CategoryLoadedEvent event,
     Emitter<CategoryState> emit,
@@ -30,6 +31,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     }
   }
 
+  /// Сменить категорию.
   void _switchCategory(CategorySwitchEvent event, Emitter<CategoryState> emit) {
     try {
       if (state is CategoryLoadedState) {

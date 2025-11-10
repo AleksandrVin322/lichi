@@ -6,8 +6,9 @@ import '../../../../core/bloc/category/category_bloc.dart';
 import '../../widgets/fail_widget.dart';
 import 'body_grid_product.dart';
 
+/// [BlocBuilder] для [CatalogBloc].
 class GridProduct extends StatelessWidget {
-  /// [BlocBuilder] для [CatalogBloc].
+  /// Конструктор [GridProduct].
   const GridProduct({super.key});
 
   @override
