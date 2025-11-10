@@ -10,3 +10,5 @@ class CategoryLoadedState extends CategoryState {
   final int index;
   CategoryLoadedState({this.category = const [], this.index = 0});
 }
+
+class CategoryLoadingFailState extends CategoryState {}

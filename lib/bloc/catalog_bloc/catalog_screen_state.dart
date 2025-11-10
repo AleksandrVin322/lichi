@@ -10,3 +10,5 @@ class CatalogLoadedState extends CatalogScreenState {
 }
 
 class CatalogLoadingState extends CatalogScreenState {}
+
+class CatalogLoadingFailState extends CatalogScreenState {}

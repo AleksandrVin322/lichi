@@ -5,13 +5,11 @@ import '../entity/category.dart';
 import '../entity/product.dart';
 
 class ApiClient {
-  final client = HttpClient();
+  static const uriProductList = 'get_category_product_list';
+  static const uriCategoryDetail = 'get_category_detail';
 
   Future<List<Product>> getCategoryProductList(String category) async {
-    List<Product> products = [];
-    var url = Uri.parse(
-      'https://api.lichi.com/category/get_category_product_list',
-    );
+    final url = _getUri(uriProductList);
     final Map<String, dynamic> body = {
       'shop': 2,
       'lang': 1,
@@ -19,43 +17,45 @@ class ApiClient {
       'limit': 12,
       'page': 1,
     };
-    final request = await client.postUrl(url);
-    request.headers.add('Content-type', 'application/json; charset=UTF-8');
-    request.write(jsonEncode(body));
-    final response = await request.close();
-    final data = await response
-        .transform(utf8.decoder)
-        .toList()
-        .then((value) => value.join());
-    final jsonData = jsonDecode(data);
-    final aProductList = jsonData['api_data']['aProduct'] as List<dynamic>;
-    products = aProductList.map((productJson) {
-      return Product.fromJson(productJson as Map<String, dynamic>);
-    }).toList();
-    return products;
+    try {
+      final jsonData = await _postRequest(url, body);
+      return Product.fromJsonList(jsonData);
+    } catch (_) {
+      rethrow;
+    }
   }
 
   Future<List<Category>> getCategoryDetail() async {
-    List<Category> category = [];
-    var url = Uri.parse('https://api.lichi.com/category/get_category_detail');
+    final url = _getUri(uriCategoryDetail);
     const Map<String, dynamic> body = {
       'shop': 2,
       'lang': 1,
       'category': 'clothes',
     };
-    final request = await client.postUrl(url);
-    request.headers.add('Content-type', 'application/json; charset=UTF-8');
-    request.write(jsonEncode(body));
-    final response = await request.close();
-    final data = await response
-        .transform(utf8.decoder)
-        .toList()
-        .then((value) => value.join());
-    final jsonData = jsonDecode(data);
-    final aProductList = jsonData['api_data']['aMenu'] as List<dynamic>;
-    category = aProductList.map((productJson) {
-      return Category.fromJson(productJson as Map<String, dynamic>);
-    }).toList();
-    return category;
+    try {
+      final jsonData = await _postRequest(url, body);
+      return Category.fromJsonList(jsonData);
+    } catch (_) {
+      rethrow;
+    }
   }
+}
+
+Uri _getUri(String path) {
+  final url = Uri.parse('https://api.lichi.com/category/$path');
+  return url;
+}
+
+Future<dynamic> _postRequest(Uri url, Map<String, dynamic> body) async {
+  final client = HttpClient();
+  final request = await client.postUrl(url);
+  request.headers.add('Content-type', 'application/json; charset=UTF-8');
+  request.write(jsonEncode(body));
+  final response = await request.close();
+  final data = await response
+      .transform(utf8.decoder)
+      .toList()
+      .then((value) => value.join());
+  final jsonData = jsonDecode(data);
+  return jsonData;
 }

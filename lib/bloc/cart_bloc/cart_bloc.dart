@@ -1,33 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../api/shared_preverence_api.dart';
 import '../../entity/cart.dart';
 import '../../entity/product.dart';
-import '../../entity/product_count.dart';
+import '../../entity/product_with_count.dart';
 
 part 'cart_event.dart';
 part 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  CartBloc() : super(CartInitialState()) {
+  final SharedPreferencesApi sharedPreferencesApi;
+  CartBloc({required this.sharedPreferencesApi}) : super(CartInitialState()) {
     on<AddProductEvent>(_addProduct);
     on<DeleteProductEvent>(_deleteProduct);
     on<IncrementCountProductEvent>(_incrementCountProduct);
     on<DecrementCountProductEvent>(_decrementCountProduct);
+    on<InitialEvent>(_initCart);
+    add(InitialEvent());
   }
 
-  void _addProduct(AddProductEvent event, Emitter<CartState> emit) {
+  void _initCart(InitialEvent event, Emitter<CartState> emit) async {
+    final Cart? cart = await sharedPreferencesApi.loadCart();
+    emit(CartInitialState(cart: cart!));
+  }
+
+  void _addProduct(AddProductEvent event, Emitter<CartState> emit) async {
     final currentState = state as CartInitialState;
     final products = currentState.cart.productCount;
     var itemCount = currentState.cart.itemCount;
     var sum = currentState.cart.sum;
-    final List<ProductCount> newList = [];
+    final List<ProductWithCount> newList = [];
     bool productFound = false;
 
     for (final element in products) {
       if (element.product.name == event.product.name &&
           element.product.size == event.product.size) {
-        final updateElement = ProductCount(
+        final updateElement = ProductWithCount(
           product: element.product,
           count: element.count + 1,
         );
@@ -40,11 +49,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       }
     }
     if (!productFound) {
-      newList.add(ProductCount(product: event.product, count: 1));
+      newList.add(ProductWithCount(product: event.product, count: 1));
       itemCount += 1;
       sum += event.product.price;
     }
-
+    sharedPreferencesApi.saveCart(
+      Cart(productCount: newList, itemCount: itemCount, sum: sum),
+    );
     emit(
       CartInitialState(
         cart: Cart(productCount: newList, itemCount: itemCount, sum: sum),
@@ -63,6 +74,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         sum -
         deleteCount * currentState.cart.productCount[event.index].product.price;
     newList.removeAt(event.index);
+    sharedPreferencesApi.saveCart(
+      Cart(productCount: newList, itemCount: itemCount, sum: sum),
+    );
     emit(
       CartInitialState(
         cart: Cart(productCount: newList, itemCount: itemCount, sum: sum),
@@ -81,7 +95,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     int sum =
         currentState.cart.sum +
         currentState.cart.productCount[event.index].product.price;
-
+    sharedPreferencesApi.saveCart(
+      Cart(productCount: newList, itemCount: itemCount, sum: sum),
+    );
     emit(
       CartInitialState(
         cart: Cart(productCount: newList, itemCount: itemCount, sum: sum),
@@ -101,6 +117,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       int sum =
           currentState.cart.sum -
           currentState.cart.productCount[event.index].product.price;
+      sharedPreferencesApi.saveCart(
+        Cart(productCount: newList, itemCount: itemCount, sum: sum),
+      );
       emit(
         CartInitialState(
           cart: Cart(productCount: newList, itemCount: itemCount, sum: sum),

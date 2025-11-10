@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import '../../bloc/cart_bloc/cart_bloc.dart';
-import '../../card_in_cart.dart';
-import '../../style/text_style.dart';
+import 'card_in_cart.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -12,7 +12,22 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Center(child: Text('Корзина'))),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Stack(
+          alignment: Alignment.center,
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: IconButton(
+                onPressed: () => Navigator.of(context).pop(),
+                icon: const Icon(Icons.arrow_back),
+              ),
+            ),
+            const Center(child: Text('Корзина')),
+          ],
+        ),
+      ),
       body: BlocBuilder<CartBloc, CartState>(
         builder: (context, state) {
           if (state is CartInitialState) {
@@ -33,18 +48,22 @@ class CartScreen extends StatelessWidget {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
-                    const TextOpenSans(
-                      text: 'К оплате',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w300,
+                    const SizedBox(height: 20),
+                    Text(
+                      'К оплате',
+                      style: GoogleFonts.openSans(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w300,
+                      ),
                     ),
-                    TextOpenSans(
-                      text: formatPrice(state.cart.sum),
-                      fontSize: 30,
-                      fontWeight: FontWeight.w400,
+                    Text(
+                      formatPrice(state.cart.sum),
+                      style: GoogleFonts.openSans(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
                   ],
                 ),
               );
@@ -53,16 +72,8 @@ class CartScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextOpenSans(
-                      text: 'Корзина пустая',
-                      fontSize: 13,
-                      fontWeight: FontWeight.w300,
-                    ),
-                    TextOpenSans(
-                      text: 'Добавьте все что вы хотите.',
-                      fontSize: 13,
-                      fontWeight: FontWeight.w300,
-                    ),
+                    Text('Корзина пустая'),
+                    Text('Добавьте все что вы хотите.'),
                   ],
                 ),
               );

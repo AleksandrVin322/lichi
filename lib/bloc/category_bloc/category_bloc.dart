@@ -21,20 +21,28 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     CategoryLoadedEvent event,
     Emitter<CategoryState> emit,
   ) async {
-    final category = await apiClient.getCategoryDetail();
-    category.insert(0, Category(name: 'Все', url: 'clothes'));
-    emit(CategoryLoadedState(category: category));
+    try {
+      final category = await apiClient.getCategoryDetail();
+      category.insert(0, Category(name: 'Все', url: 'clothes'));
+      emit(CategoryLoadedState(category: category));
+    } catch (_) {
+      emit(CategoryLoadingFailState());
+    }
   }
 
   void _switchCategory(CategorySwitchEvent event, Emitter<CategoryState> emit) {
-    if (state is CategoryLoadedState) {
-      final currentState = state as CategoryLoadedState;
-      emit(
-        CategoryLoadedState(
-          category: currentState.category,
-          index: event.index,
-        ),
-      );
+    try {
+      if (state is CategoryLoadedState) {
+        final currentState = state as CategoryLoadedState;
+        emit(
+          CategoryLoadedState(
+            category: currentState.category,
+            index: event.index,
+          ),
+        );
+      }
+    } catch (_) {
+      emit(CategoryLoadingFailState());
     }
   }
 }

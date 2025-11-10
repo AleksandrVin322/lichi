@@ -20,7 +20,11 @@ class CatalogScreenBloc extends Bloc<CatalogScreenEvent, CatalogScreenState> {
     Emitter<CatalogScreenState> emit,
   ) async {
     emit(CatalogLoadingState());
-    final clothes = await apiClient.getCategoryProductList(event.category);
-    emit(CatalogLoadedState(products: clothes));
+    try {
+      final clothes = await apiClient.getCategoryProductList(event.category);
+      emit(CatalogLoadedState(products: clothes));
+    } catch (_) {
+      emit(CatalogLoadingFailState());
+    }
   }
 }

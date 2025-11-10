@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'bloc/cart_bloc/cart_bloc.dart';
-import 'entity/product_count.dart';
-import 'style/text_style.dart';
+import '../../bloc/cart_bloc/cart_bloc.dart';
+import '../../entity/product_with_count.dart';
 
 class CardInCart extends StatelessWidget {
-  final ProductCount productCount;
+  final ProductWithCount productCount;
   final int index;
 
   const CardInCart({
@@ -19,8 +18,8 @@ class CardInCart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
-      child: Container(
-        height: 200,
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height / 5,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -35,24 +34,22 @@ class CardInCart extends StatelessWidget {
             const SizedBox(width: 10),
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    productCount.product.name,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  TextOpenSans(
-                    text: productCount.product.size ?? '',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w300,
-                  ),
-                  const SizedBox(height: 33),
                   Expanded(
-                    child: TextOpenSans(
-                      text: productCount.product.formatPrice[2],
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          productCount.product.name,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(productCount.product.size ?? ''),
+                        const SizedBox(height: 10),
+                        Expanded(
+                          child: Text(productCount.product.formatPrice[2]),
+                        ),
+                      ],
                     ),
                   ),
                   Row(
