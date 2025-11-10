@@ -1,8 +1,8 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../entity/product.dart';
-import '../../../service/api_client.dart';
+import '../../api/api_client.dart';
+import '../../entity/product.dart';
 
 part 'catalog_screen_event.dart';
 part 'catalog_screen_state.dart';

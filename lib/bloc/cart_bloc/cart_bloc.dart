@@ -1,10 +1,9 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../entity/cart.dart';
-import '../../../../entity/product.dart';
-import '../../../../entity/product_count.dart';
+import '../../entity/cart.dart';
+import '../../entity/product.dart';
+import '../../entity/product_count.dart';
 
 part 'cart_event.dart';
 part 'cart_state.dart';

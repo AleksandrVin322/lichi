@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'bloc/cart_bloc/cart_bloc.dart';
 import 'entity/product.dart';
-import 'screen/catalog_screen/cart_bloc/bloc/cart_bloc.dart';
 import 'style/text_style.dart';
 
 class CardProduct extends StatefulWidget {
@@ -29,13 +29,14 @@ class _CardProductState extends State<CardProduct> {
             price: widget.product.price,
             name: widget.product.name,
             photos: widget.product.photos,
+            colors: widget.product.colors,
           ),
           child: Column(
             children: [
               Stack(
                 children: [
                   SizedBox(
-                    height: 200,
+                    height: MediaQuery.of(context).size.height / 3,
                     child: PageView.builder(
                       itemCount: widget.product.photos.length,
                       onPageChanged: (index) {
@@ -73,22 +74,34 @@ class _CardProductState extends State<CardProduct> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           (ind == 0)
-                              ? Icon(Icons.circle, size: 7)
-                              : Icon(
+                              ? const Icon(
+                                  Icons.circle,
+                                  size: 7,
+                                  color: Colors.black,
+                                )
+                              : const Icon(
                                   Icons.circle,
                                   color: Colors.white,
                                   size: 7,
                                 ),
                           (ind > 0 && ind < widget.product.photos.length - 1)
-                              ? Icon(Icons.circle, size: 7)
-                              : Icon(
+                              ? const Icon(
+                                  Icons.circle,
+                                  size: 7,
+                                  color: Colors.black,
+                                )
+                              : const Icon(
                                   Icons.circle,
                                   color: Colors.white,
                                   size: 7,
                                 ),
                           (ind == widget.product.photos.length - 1)
-                              ? Icon(Icons.circle, size: 7)
-                              : Icon(
+                              ? const Icon(
+                                  Icons.circle,
+                                  size: 7,
+                                  color: Colors.black,
+                                )
+                              : const Icon(
                                   Icons.circle,
                                   color: Colors.white,
                                   size: 7,
@@ -106,13 +119,38 @@ class _CardProductState extends State<CardProduct> {
                 fontWeight: FontWeight.w600,
               ),
               const SizedBox(height: 12),
-              Center(
-                child: TextOpenSans(
-                  text: widget.product.name,
+              Text(
+                widget.product.name,
+                style: GoogleFonts.openSans(
                   fontSize: 14,
                   fontWeight: FontWeight.w300,
                 ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
+              const SizedBox(height: 12),
+              Center(
+                child: Container(
+                  height: 10,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      widget.product.colors.length,
+                      (index) => Row(
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            size: 10,
+                            color: hexToColor(widget.product.colors[index]),
+                          ),
+                          const SizedBox(width: 6),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
             ],
           ),
         ),
@@ -121,12 +159,22 @@ class _CardProductState extends State<CardProduct> {
   }
 }
 
+Color hexToColor(String hexString) {
+  final buffer = StringBuffer();
+  if (hexString.length == 6 || hexString.length == 7) {
+    buffer.write('FF'); // добавляем альфа-канал (непрозрачность)
+  }
+  buffer.write(hexString.replaceFirst('#', ''));
+  return Color(int.parse(buffer.toString(), radix: 16));
+}
+
 void _showModal({
   required BuildContext context,
   required List<String> formatPrice,
   required int price,
   required List<String> photos,
   required String name,
+  required List<String> colors,
 }) {
   var size = 'M';
   final bloc = context.read<CartBloc>();
@@ -152,10 +200,11 @@ void _showModal({
                 color: Color.fromARGB(129, 158, 158, 158),
                 thickness: 1,
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 30),
 
               Expanded(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     InkWell(
@@ -247,13 +296,14 @@ void _showModal({
                           formatPrice: formatPrice,
                           name: name,
                           size: size,
+                          colors: colors,
                         ),
                       ),
                     );
                     Navigator.of(context).pop();
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Container(
+                        content: const SizedBox(
                           height: 30,
                           child: Center(
                             child: Text('Товар успешно добавлен в корзину'),

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../api/api_client.dart';
+import '../../bloc/cart_bloc/cart_bloc.dart';
+import '../../bloc/catalog_bloc/catalog_screen_bloc.dart';
+import '../../bloc/category_bloc/category_bloc.dart';
+import '../../bloc/theme_bloc/theme_bloc.dart';
 import '../../card_product.dart';
-import '../../service/api_client.dart';
 import '../../style/text_style.dart';
 import '../cart/cart_screen.dart';
-import 'cart_bloc/bloc/cart_bloc.dart';
-import 'catalog_bloc/catalog_screen_bloc.dart';
-import 'category_bloc/bloc/category_bloc.dart';
-import 'theme_bloc/theme_bloc.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -154,6 +154,7 @@ class BodyCatalogScreen extends StatelessWidget {
                     onPressed: () =>
                         context.read<ThemeBloc>().add(ChangeThemeToDarkEvent()),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Icon(Icons.dark_mode, color: Colors.black),
                         const SizedBox(width: 5),
@@ -185,6 +186,7 @@ class BodyCatalogScreen extends StatelessWidget {
                       ),
                     ),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Icon(
                           Icons.light_mode,
@@ -227,7 +229,7 @@ class BodyCatalogScreen extends StatelessWidget {
                                 (state.index == index)
                                     ? Container(
                                         height: 2,
-                                        color: Colors.black,
+                                        color: Theme.of(context).primaryColor,
                                         width:
                                             state.category[index].name.length *
                                             8,
@@ -254,7 +256,7 @@ class BodyCatalogScreen extends StatelessWidget {
                 );
               }
 
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             },
           ),
           const SizedBox(height: 20),
@@ -264,7 +266,7 @@ class BodyCatalogScreen extends StatelessWidget {
                 return Expanded(
                   child: GridView.count(
                     crossAxisCount: 2,
-                    childAspectRatio: 0.5,
+                    childAspectRatio: 0.45,
                     children: List.generate(state.products.length, (index) {
                       return CardProduct(product: state.products[index]);
                     }),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
+import '../../bloc/cart_bloc/cart_bloc.dart';
 import '../../card_in_cart.dart';
 import '../../style/text_style.dart';
-import '../catalog_screen/cart_bloc/bloc/cart_bloc.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -32,8 +33,18 @@ class CartScreen extends StatelessWidget {
                         },
                       ),
                     ),
-                    const Text('К оплате'),
-                    Text('${state.cart.sum}'),
+                    SizedBox(height: 20),
+                    const TextOpenSans(
+                      text: 'К оплате',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w300,
+                    ),
+                    TextOpenSans(
+                      text: formatPrice(state.cart.sum),
+                      fontSize: 30,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    SizedBox(height: 40),
                   ],
                 ),
               );
@@ -63,4 +74,9 @@ class CartScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+String formatPrice(int price) {
+  final formatter = NumberFormat.decimalPattern('ru');
+  return '${formatter.format(price)} руб.';
 }
