@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'api/api_client.dart';
-import 'api/shared_preverence_api.dart';
-import 'bloc/cart_bloc/cart_bloc.dart';
-import 'bloc/catalog_bloc/catalog_screen_bloc.dart';
-import 'bloc/category_bloc/category_bloc.dart';
-import 'bloc/theme_bloc/theme_bloc.dart';
-import 'screen/cart_screen/cart_screen.dart';
-import 'screen/catalog_screen/catalog_screen.dart';
+import 'core/api/api_client.dart';
+import 'core/api/database_client.dart';
+import 'core/bloc/cart/cart_bloc.dart';
+import 'core/bloc/catalog/catalog_bloc.dart';
+import 'core/bloc/category/category_bloc.dart';
+import 'core/bloc/theme/theme_bloc.dart';
+import 'ui/screen/cart_screen/cart_screen.dart';
+import 'ui/screen/catalog_screen/catalog_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -18,13 +18,13 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(create: (context) => ApiClient()),
-        RepositoryProvider(create: (context) => SharedPreferencesApi()),
+        RepositoryProvider(create: (context) => DatabaseClient()),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (context) =>
-                CatalogScreenBloc(apiClient: context.read<ApiClient>()),
+                CatalogBloc(apiClient: context.read<ApiClient>()),
           ),
           BlocProvider(create: (context) => ThemeBloc()),
           BlocProvider(
@@ -32,9 +32,8 @@ class MyApp extends StatelessWidget {
                 CategoryBloc(apiClient: context.read<ApiClient>()),
           ),
           BlocProvider(
-            create: (context) => CartBloc(
-              sharedPreferencesApi: context.read<SharedPreferencesApi>(),
-            ),
+            create: (context) =>
+                CartBloc(sharedPreferencesApi: context.read<DatabaseClient>()),
           ),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
