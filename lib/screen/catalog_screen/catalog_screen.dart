@@ -5,7 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../card_product.dart';
 import '../../service/api_client.dart';
 import '../../style/text_style.dart';
+import '../cart/cart_screen.dart';
+import 'cart_bloc/bloc/cart_bloc.dart';
 import 'catalog_bloc/catalog_screen_bloc.dart';
+import 'category_bloc/bloc/category_bloc.dart';
 import 'theme_bloc/theme_bloc.dart';
 
 class MyApp extends StatelessWidget {
@@ -19,18 +22,36 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) =>
-                CatalogScreenBloc(apiClient: context.read<ApiClient>())
-                  ..add(CatalogScreenLoadedEvent()),
+                CatalogScreenBloc(apiClient: context.read<ApiClient>()),
           ),
           BlocProvider(create: (context) => ThemeBloc()),
+          BlocProvider(
+            create: (context) =>
+                CategoryBloc(apiClient: context.read<ApiClient>()),
+          ),
+          BlocProvider(create: (context) => CartBloc()),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {
             if (state is LightThemeState) {
-              return MaterialApp(theme: state.theme, home: BodyCatalogScreen());
+              return MaterialApp(
+                theme: state.theme,
+                routes: {
+                  'catalog_screen': (context) => const BodyCatalogScreen(),
+                  'cart_screen': (context) => const CartScreen(),
+                },
+                initialRoute: 'catalog_screen',
+              );
             }
             if (state is DarkThemeState) {
-              return MaterialApp(theme: state.theme, home: BodyCatalogScreen());
+              return MaterialApp(
+                theme: state.theme,
+                routes: {
+                  'catalog_screen': (context) => const BodyCatalogScreen(),
+                  'cart_screen': (context) => const CartScreen(),
+                },
+                initialRoute: 'catalog_screen',
+              );
             } else {
               return const CircularProgressIndicator();
             }
@@ -70,12 +91,32 @@ class BodyCatalogScreen extends StatelessWidget {
                           borderRadius: BorderRadiusGeometry.circular(100),
                         ),
                       ),
-                      onPressed: () {},
-                      child: const Row(
+                      onPressed: () =>
+                          Navigator.of(context).pushNamed('cart_screen'),
+                      child: Row(
                         children: [
-                          Text('0', style: TextStyle(color: Colors.white)),
-                          SizedBox(width: 5),
-                          Icon(Icons.shopping_bag, color: Colors.white),
+                          BlocBuilder<CartBloc, CartState>(
+                            builder: (context, state) {
+                              if (state is CartInitialState) {
+                                return Text(
+                                  '${state.cart.itemCount}',
+                                  style: GoogleFonts.openSans(
+                                    color: Colors.white,
+                                    fontSize: 21,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                );
+                              } else {
+                                return const CircularProgressIndicator();
+                              }
+                            },
+                          ),
+                          const SizedBox(width: 5),
+                          const Icon(
+                            Icons.shopping_bag,
+                            color: Colors.white,
+                            size: 20,
+                          ),
                         ],
                       ),
                     ),
@@ -167,28 +208,54 @@ class BodyCatalogScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 30),
-          SizedBox(
-            height: 20,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: const [
-                SizedBox(width: 16),
-                Text('Все'),
-                SizedBox(width: 16),
-                Text('Платья'),
-                SizedBox(width: 16),
-                Text('Купальники'),
-                SizedBox(width: 16),
-                Text('Деним'),
-                SizedBox(width: 16),
-                Text('Блузы и топы'),
-                SizedBox(width: 16),
-                Text('Брюки'),
-                SizedBox(width: 16),
-                Text('Бриджи'),
-                SizedBox(width: 16),
-              ],
-            ),
+          BlocBuilder<CategoryBloc, CategoryState>(
+            builder: (context, state) {
+              if (state is CategoryLoadedState) {
+                return SizedBox(
+                  height: 40,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: state.category.length,
+                    itemBuilder: (context, index) {
+                      return Row(
+                        children: [
+                          const SizedBox(width: 5),
+                          InkWell(
+                            child: Column(
+                              children: [
+                                Text(state.category[index].name),
+                                (state.index == index)
+                                    ? Container(
+                                        height: 2,
+                                        color: Colors.black,
+                                        width:
+                                            state.category[index].name.length *
+                                            8,
+                                      )
+                                    : const SizedBox(),
+                              ],
+                            ),
+                            onTap: () {
+                              context.read<CatalogScreenBloc>().add(
+                                ProductsLoadedEvent(
+                                  category: state.category[index].url,
+                                ),
+                              );
+                              context.read<CategoryBloc>().add(
+                                CategorySwitchEvent(index: index),
+                              );
+                            },
+                          ),
+                          const SizedBox(width: 5),
+                        ],
+                      );
+                    },
+                  ),
+                );
+              }
+
+              return CircularProgressIndicator();
+            },
           ),
           const SizedBox(height: 20),
           BlocBuilder<CatalogScreenBloc, CatalogScreenState>(
@@ -198,13 +265,8 @@ class BodyCatalogScreen extends StatelessWidget {
                   child: GridView.count(
                     crossAxisCount: 2,
                     childAspectRatio: 0.5,
-                    children: List.generate(state.clothes.length, (index) {
-                      return CardProduct(
-                        price: state.clothes[index].formatPrice[0],
-                        name: state.clothes[index].name,
-                        photos: state.clothes[index].photos,
-                        priceR: state.clothes[index].formatPrice[1],
-                      );
+                    children: List.generate(state.products.length, (index) {
+                      return CardProduct(product: state.products[index]);
                     }),
                   ),
                 );

@@ -3,6 +3,8 @@ part of 'catalog_screen_bloc.dart';
 @immutable
 abstract class CatalogScreenEvent {}
 
-class CatalogScreenLoadingEvent extends CatalogScreenEvent {}
+class ProductsLoadedEvent extends CatalogScreenEvent {
+  final String category;
 
-class CatalogScreenLoadedEvent extends CatalogScreenEvent {}
+  ProductsLoadedEvent({this.category = 'clothes'});
+}

@@ -1,17 +1,19 @@
-class Clothes {
+class Product {
   final int price;
   final List<String> photos;
   final String name;
   final List<String> formatPrice;
+  final String? size;
 
-  Clothes({
+  Product({
     required this.price,
     required this.photos,
     required this.formatPrice,
     required this.name,
+    required this.size,
   });
 
-  factory Clothes.fromJson(Map<String, dynamic> json) {
+  factory Product.fromJson(Map<String, dynamic> json) {
     final photosJson = json['photos'] as List<dynamic>? ?? [];
     final photoUrls = photosJson
         .map((photo) => photo['big'] as String? ?? '')
@@ -22,11 +24,12 @@ class Clothes {
         .map((item) => item.toString())
         .toList();
 
-    return Clothes(
+    return Product(
       price: json['price'] as int? ?? 0,
       photos: photoUrls,
       formatPrice: formatPriceList,
       name: json['name'] as String? ?? '',
+      size: null,
     );
   }
 }

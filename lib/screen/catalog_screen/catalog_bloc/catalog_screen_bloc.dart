@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../../entity/clothes.dart';
+import '../../../entity/product.dart';
 import '../../../service/api_client.dart';
 
 part 'catalog_screen_event.dart';
@@ -11,15 +11,16 @@ class CatalogScreenBloc extends Bloc<CatalogScreenEvent, CatalogScreenState> {
   final ApiClient apiClient;
 
   CatalogScreenBloc({required this.apiClient}) : super(CatalogLoadedState()) {
-    on<CatalogScreenLoadedEvent>(_getCategoryProductList);
+    on<ProductsLoadedEvent>(_getCategoryProductList);
+    add(ProductsLoadedEvent());
   }
 
   Future<void> _getCategoryProductList(
-    CatalogScreenLoadedEvent event,
+    ProductsLoadedEvent event,
     Emitter<CatalogScreenState> emit,
   ) async {
     emit(CatalogLoadingState());
-    final clothes = await apiClient.getCategoryProductList();
-    emit(CatalogLoadedState(clothes: clothes));
+    final clothes = await apiClient.getCategoryProductList(event.category);
+    emit(CatalogLoadedState(products: clothes));
   }
 }
