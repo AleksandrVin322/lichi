@@ -1,0 +1,73 @@
+name: Lichi Flutter CI
+
+env:
+  FLUTTER_VERSION: 3.32.6
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  check-action:
+    runs-on: ubuntu-latest
+
+    name: Версия CI Flutter
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.32.6
+      - run: flutter --version
+
+  build-ios:
+    runs-on: macos-latest
+
+    name: Cборка IOS
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.32.6
+      - run: flutter pub get
+      - run: flutter build ios --release --no-codesign
+
+  build-android:
+    runs-on: ubuntu-latest
+
+    name: Сборка Android
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.32.6
+      - run: flutter pub get
+      - run: flutter build apk
+      - run: flutter build appbundle
+
+  test:
+    if: false # Если появятся тесты
+    runs-on: ubuntu-latest
+
+    name: Тесты
+    needs: [build-android, build-ios]
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.32.6
+      - run: flutter pub get
+      - run: flutter test
