@@ -8,7 +8,9 @@ class LightThemeState extends ThemeState {
     brightness: Brightness.light,
     primaryColor: Colors.black,
     scaffoldBackgroundColor: Colors.white,
+    appBarTheme: const AppBarTheme(color: Colors.white),
   );
+
   LightThemeState();
 }
 
@@ -17,6 +19,8 @@ class DarkThemeState extends ThemeState {
     brightness: Brightness.dark,
     primaryColor: Colors.white,
     scaffoldBackgroundColor: Colors.grey[900],
+    appBarTheme: AppBarTheme(color: Colors.grey[900]),
   );
+
   DarkThemeState();
 }
