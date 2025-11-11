@@ -3,49 +3,50 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../api/api_client.dart';
+import '../../client/rest_client.dart';
 import '../../dto/category.dart';
 
 part 'category_event.dart';
 part 'category_state.dart';
 
+/// [Bloc] для списка категорий товаров.
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
-  final ApiClient apiClient;
-  CategoryBloc({required this.apiClient}) : super(CategoryInitial()) {
+  final RestClient restClient;
+  CategoryBloc({required this.restClient}) : super(CategoryInitial()) {
     on<CategoryLoadedEvent>(_getCategoryDetailList);
     on<CategorySwitchEvent>(_switchCategory);
     add(CategoryLoadedEvent());
   }
 
-  /// Получить список категорий.
+  /// Получение списка категорий.
   Future<void> _getCategoryDetailList(
     CategoryLoadedEvent event,
     Emitter<CategoryState> emit,
   ) async {
     try {
-      final category = await apiClient.getCategoryDetail();
+      emit(CategoryLoadingState());
+      final category = await restClient.getCategoryDetail();
+
       category.insert(0, Category(name: 'Все', url: 'clothes'));
+
       emit(CategoryLoadedState(category: category));
     } catch (_) {
       emit(CategoryLoadingFailState());
     }
   }
 
-  /// Сменить категорию.
+  /// Смена категории.
   void _switchCategory(CategorySwitchEvent event, Emitter<CategoryState> emit) {
-    try {
-      if (state is CategoryLoadedState) {
-        final currentState = state as CategoryLoadedState;
-        emit(
-          CategoryLoadedState(
-            category: currentState.category,
-            index: event.index,
-            currentCategory: event.currentCategory,
-          ),
-        );
-      }
-    } catch (_) {
-      emit(CategoryLoadingFailState());
+    if (state is! CategoryLoadedState) {
+      return;
     }
+    final currentState = state as CategoryLoadedState;
+    emit(
+      CategoryLoadedState(
+        category: currentState.category,
+        index: event.index,
+        currentCategory: event.currentCategory,
+      ),
+    );
   }
 }

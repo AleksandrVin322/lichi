@@ -28,7 +28,6 @@ class Product {
     required this.colors,
   });
 
-  /// Метод для извлечения JSON.
   static List<Product> fromJsonList(Map<String, dynamic> json) {
     final aProductList = json['api_data']['aProduct'] as List<dynamic>? ?? [];
     return aProductList.map((productJson) {
@@ -42,10 +41,12 @@ class Product {
         .map((photo) => photo['thumbs']['384_512'] as String? ?? '')
         .where((url) => url.isNotEmpty)
         .toList();
+
     final formatPriceJson = json['format_price'] as List<dynamic>? ?? [];
     final formatPriceList = formatPriceJson
         .map((item) => item.toString())
         .toList();
+
     final colorsCurrentJson =
         json['colors']['current']['value'] as String? ?? '';
     final colorsOtherJson = json['colors']['other'] as List<dynamic>? ?? [];
@@ -53,7 +54,9 @@ class Product {
         .map((color) => color['value'] as String? ?? '')
         .toList();
     final colorsAllValues = [...colorsOtherValues];
+
     colorsAllValues.insert(0, colorsCurrentJson);
+
     return Product(
       price: json['price'] as int? ?? 0,
       photos: photoUrls,

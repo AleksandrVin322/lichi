@@ -5,6 +5,8 @@ abstract class CategoryState {}
 
 class CategoryInitial extends CategoryState {}
 
+class CategoryLoadingState extends CategoryState {}
+
 class CategoryLoadedState extends CategoryState {
   final List<Category> category;
   final String currentCategory;

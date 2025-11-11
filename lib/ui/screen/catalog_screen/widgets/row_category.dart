@@ -65,8 +65,10 @@ class RowCategory extends StatelessWidget {
             } else if (state is CategoryLoadingFailState) {
               return const SizedBox();
             } else {
-              return const Center(
-                child: CircularProgressIndicator(color: Colors.black),
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).primaryColor,
+                ),
               );
             }
           },

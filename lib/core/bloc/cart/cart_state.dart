@@ -5,6 +5,7 @@ abstract class CartState {}
 
 class CartInitialState extends CartState {
   final Cart cart;
+
   CartInitialState({this.cart = const Cart(products: {})});
 }
 

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/bloc/catalog/catalog_bloc.dart';
 import '../../../../core/bloc/category/category_bloc.dart';
-import '../../widgets/fail_widget.dart';
+import '../../../widgets/fail_widget.dart';
 import 'body_grid_product.dart';
 
 /// [BlocBuilder] для [CatalogBloc].
@@ -23,8 +23,12 @@ class GridProduct extends StatelessWidget {
               context.read<CategoryBloc>().add(CategoryLoadedEvent());
             },
           ),
-          _ => const Center(
-            child: CircularProgressIndicator(color: Colors.black),
+          _ => Expanded(
+            child: Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
           ),
         };
       },

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/bloc/cart/cart_bloc.dart';
-import '../widgets/fail_widget.dart';
+import '../../widgets/fail_widget.dart';
 import 'widgets/app_bar_title.dart';
 import 'widgets/list_product_in_cart.dart';
 

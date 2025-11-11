@@ -8,5 +8,6 @@ class CategoryLoadedEvent extends CategoryEvent {}
 class CategorySwitchEvent extends CategoryEvent {
   final int index;
   final String currentCategory;
+
   CategorySwitchEvent({this.index = 0, required this.currentCategory});
 }

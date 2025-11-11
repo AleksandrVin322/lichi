@@ -12,7 +12,7 @@ class DatabaseClient {
 
       final cartJson = cart.toJsonString();
       await init.setString(_cartKey, cartJson);
-    } on () {
+    } catch (_) {
       rethrow;
     }
   }
@@ -27,7 +27,7 @@ class DatabaseClient {
       } else {
         return const Cart(products: {});
       }
-    } on () {
+    } catch (_) {
       rethrow;
     }
   }

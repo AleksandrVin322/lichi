@@ -16,7 +16,6 @@ class Cart {
   /// Конструктор [Cart].
   const Cart({required this.products, this.totalSum = 0, this.itemCount = 0});
 
-  /// Метод для создания JSON.
   Map<String, dynamic> toJson() {
     return {
       'products': _productsToJson(products),
@@ -33,7 +32,6 @@ class Cart {
     }).toList();
   }
 
-  /// Метод для извлечения из JSON
   factory Cart.fromJson(Map<String, dynamic> json) {
     return Cart(
       products: _productsFromJson(json['products']),
