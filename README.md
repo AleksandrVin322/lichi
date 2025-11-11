@@ -4,10 +4,11 @@
 
 ## Скриншоты
 
-<img width="386" height="847" alt="image" src="https://github.com/user-attachments/assets/3d83f8cf-d7c2-4ee4-aa0b-9314763d27df" />
-<img width="389" height="844" alt="image" src="https://github.com/user-attachments/assets/665c6354-2cb4-42b4-a7a9-a30a0508b154" />
-<img width="403" height="856" alt="image" src="https://github.com/user-attachments/assets/14617487-15df-4cc2-94d9-a44b03429e94" />
-<img width="403" height="849" alt="image" src="https://github.com/user-attachments/assets/425664bc-211e-4d83-80e4-eadd96dacf8c" />
+<img width="386" height="844" alt="image" src="https://github.com/user-attachments/assets/3d83f8cf-d7c2-4ee4-aa0b-9314763d27df" />
+<img width="386" height="844" alt="image" src="https://github.com/user-attachments/assets/665c6354-2cb4-42b4-a7a9-a30a0508b154" />
+<img width="386" height="844" alt="image" src="https://github.com/user-attachments/assets/14617487-15df-4cc2-94d9-a44b03429e94" />
+<img width="386" height="844" alt="image" src="https://github.com/user-attachments/assets/51ed16bc-2f36-47d0-8fb8-35295c631b5f" />
+
 
 ## Реализованные функции
 
